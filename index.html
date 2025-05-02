@@ -1,48 +1,215 @@
-<html lang="en">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Profil Pribadi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profil Pribadi & Pemesanan</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    let cart = [];
+    let editingIndex = null;
+
+    function showImage(src) {
+      const overlay = document.createElement('div');
+      overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50";
+      overlay.innerHTML = ` 
+        <div>
+          <img src="${src}" class="max-w-full max-h-full rounded-lg shadow-lg" />
+          <button onclick="this.parentElement.parentElement.remove()" class="block mt-4 text-white mx-auto">Tutup</button>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+    }
+
+    function addToCart(productName, price) {
+      const existingItem = cart.find(item => item.name === productName);
+      if (existingItem) {
+        existingItem.quantity++;
+      } else {
+        cart.push({ name: productName, price, quantity: 1 });
+      }
+      renderCart();
+    }
+
+    function removeFromCart(index) {
+      cart.splice(index, 1);
+      renderCart();
+    }
+
+    function openEditPopup(index) {
+      editingIndex = index;
+      document.getElementById('editQtyInput').value = cart[index].quantity;
+      document.getElementById('editPopup').classList.remove('hidden');
+    }
+
+    function saveEditQuantity() {
+      const qty = parseInt(document.getElementById('editQtyInput').value);
+      if (!isNaN(qty) && qty > 0) {
+        cart[editingIndex].quantity = qty;
+        document.getElementById('editPopup').classList.add('hidden');
+        renderCart();
+      } else {
+        alert("Jumlah tidak valid. Masukkan angka lebih dari 0.");
+      }
+    }
+
+    function cancelEdit() {
+      document.getElementById('editPopup').classList.add('hidden');
+    }
+
+    function renderCart() {
+      const cartContainer = document.getElementById('cartItems');
+      const totalContainer = document.getElementById('cartTotal');
+      cartContainer.innerHTML = '';
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        const div = document.createElement('div');
+        div.className = "flex justify-between items-center text-sm text-gray-700";
+        div.innerHTML = `
+          <div>
+            <span class="font-medium">${item.name}</span> x ${item.quantity} <br>
+            <span class="text-xs text-gray-500">Rp ${item.price.toLocaleString()} /pcs</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-sm font-semibold">Rp ${subtotal.toLocaleString()}</span>
+            <button onclick="openEditPopup(${index})" class="text-blue-600 hover:text-blue-800 text-xs">Edit</button>
+            <button onclick="removeFromCart(${index})" class="text-red-600 hover:text-red-800 text-xs">Hapus</button>
+          </div>
+        `;
+        cartContainer.appendChild(div);
+      });
+
+      totalContainer.textContent = `Total: Rp ${total.toLocaleString()}`;
+      document.getElementById('orderForm').style.display = cart.length ? 'block' : 'none';
+    }
+
+    function checkout() {
+      const name = document.getElementById('name').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      const email = document.getElementById('email').value;
+      const address = document.getElementById('address').value;
+
+      if (!name || !whatsapp || !email || !address) {
+        alert("Harap isi semua form sebelum melanjutkan!");
+        return;
+      }
+
+      let pesan = `Halo, saya ingin memesan:\nNama: ${name}\nWhatsApp: ${whatsapp}\nEmail: ${email}\nAlamat: ${address}\n\n`;
+      cart.forEach((item, i) => {
+        pesan += `${i + 1}. ${item.name} x ${item.quantity} - Rp ${(item.price * item.quantity).toLocaleString()}\n`;
+      });
+      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+      pesan += `\nTotal: Rp ${total.toLocaleString()}`;
+
+      const url = `https://wa.me/6281388728037?text=${encodeURIComponent(pesan)}`;
+      window.open(url, '_blank');
+    }
+  </script>
 </head>
 <body class="bg-gray-100 font-sans">
-  <div class="max-w-xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
+  <div class="container mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
     <div class="text-center">
-      <img
-        src="retouch_1703546733344.JPEG.jpg"
-        alt="Foto Profil"
-        class="mx-auto rounded-full mb-4 w-32 h-32 object-cover"
-      />
+      <img src="retouch_1703546733344.JPEG.jpg" alt="Foto Profil" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover" />
       <h1 class="text-3xl font-bold">Aldo Om Sinaga</h1>
       <p class="text-gray-600 mt-2">Saya Bekerja di Zenon Rental, Posisi VRO.</p>
     </div>
 
-    <div class="mt-6">
-      <h2 class="text-xl font-semibold">Tentang Saya</h2>
-      <p class="text-gray-700 mt-2">
-        Saya seorang Kapitent yang Mempunyai Pedang panjang dan nenek saya seorang pelaut.
-      </p>
-    </div>
-<div class="mt-6">
-      <h2 class="text-xl font-semibold">Kontak</h2>
-      <ul class="text-gray-700 mt-2">
-        <li>Email: Aldoomsinaga@gmail.com</li>
-        <li>Telepon: 081388728037</li>
-      </ul>
-    </div>
-<div class="mt-6">
-      <h2 class="text-xl font-semibold">Media Sosial</h2>
-      <div class="flex space-x-4 mt-2">
-        <a href="https://www.linkedin.com/in/aldo-sinaga-2a78551b6/" target="_blank" class="hover:opacity-80">
-          <img src="linkedin.png" alt="LinkedIn" width="30" height="30">
-        </a>
-        <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank" class="hover:opacity-80">
-          <img src="social-media.png" alt="TikTok" width="30" height="30">
-        </a>
-        <a href="https://www.instagram.com/aldosinaga15/" target="_blank" class="hover:opacity-80">
-          <img src="instagram.png" alt="Instagram" width="30" height="30">
-        </a>
+    <div class="mt-10">
+      <h2 class="text-2xl font-semibold mb-4">Menu Pasta</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Spaghetti</h3>
+          <p class="text-sm text-gray-600">Spaghetti pasta tipis dan panjang, sempurna dengan saus tomat atau daging.</p>
+          <button onclick="addToCart('Spaghetti', 50000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="macaroni.jpg" onclick="showImage('macaroni.jpg')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Macaroni</h3>
+          <p class="text-sm text-gray-600">Macaroni pasta berbentuk seperti tabung, cocok untuk dipanggang dengan keju.</p>
+          <button onclick="addToCart('Macaroni', 40000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="fettuccine.jpg" onclick="showImage('fettuccine.jpg')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Fettuccine</h3>
+          <p class="text-sm text-gray-600">Fettuccine pasta lebar dan datar, cocok dengan saus krim yang kaya rasa.</p>
+          <button onclick="addToCart('Fettuccine', 55000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="penne.jpg" onclick="showImage('penne.jpg')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Penne</h3>
+          <p class="text-sm text-gray-600">Penne pasta berbentuk tabung pendek, sangat cocok untuk saus tebal.</p>
+          <button onclick="addToCart('Penne', 45000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="fusilli.jpg" onclick="showImage('fusilli.jpg')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Fusilli</h3>
+          <p class="text-sm text-gray-600">Fusilli pasta berbentuk spiral, ideal untuk menyerap saus kental.</p>
+          <button onclick="addToCart('Fusilli', 47000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
+        <div class="bg-white rounded-lg shadow-md p-4">
+          <img src="lasagna.jpg" onclick="showImage('lasagna.jpg')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Lasagna</h3>
+          <p class="text-sm text-gray-600">Lasagna pasta lapis dengan daging, keju, dan saus yang kaya.</p>
+          <button onclick="addToCart('Lasagna', 60000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+        </div>
       </div>
+    </div>
+
+    <div class="mt-10">
+      <h2 class="text-xl font-semibold mb-2">Keranjang Belanja</h2>
+      <div id="cartItems" class="space-y-2"></div>
+      <div id="cartTotal" class="text-right text-lg font-bold mt-4"></div>
+    </div>
+
+    <div id="orderForm" class="mt-10" style="display: none;">
+      <h2 class="text-xl font-semibold mb-4">Form Pemesanan</h2>
+      <input type="text" id="name" placeholder="Nama Lengkap" class="w-full p-2 border rounded mb-4">
+      <input type="text" id="whatsapp" placeholder="Nomor WhatsApp" class="w-full p-2 border rounded mb-4">
+      <input type="email" id="email" placeholder="Email" class="w-full p-2 border rounded mb-4">
+      <textarea id="address" placeholder="Alamat Pengiriman" class="w-full p-2 border rounded mb-4"></textarea>
+      <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">Checkout via WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Edit Quantity Popup -->
+  <div id="editPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
+    <div class="bg-white p-6 rounded-lg">
+      <h3 class="text-xl font-semibold mb-4">Edit Jumlah Item</h3>
+      <input type="number" id="editQtyInput" class="w-full p-2 border rounded mb-4" min="1">
+      <div class="flex justify-between">
+        <button onclick="saveEditQuantity()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Simpan</button>
+        <button onclick="cancelEdit()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">Batal</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 text-center">
+    <h3 class="font-semibold">Ikuti saya di media sosial:</h3>
+    <div class="flex justify-center gap-6 mt-4">
+      <a href="https://www.instagram.com/aldosinaga15/" target="_blank" aria-label="Instagram" class="hover:text-blue-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
+          <img src="instagram.png" alt="Instagram Logo" class="w-8 h-8 hover:opacity-80">
+        </svg>
+      </a>
+      <a href="https://x.com/AldoSinaga_15" target="_blank" aria-label="X" class="hover:text-blue-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
+          <img src="twitter.png" alt="twitter Logo" class="w-8 h-8 hover:opacity-80">
+        </svg>
+      </a>
+      <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank" aria-label="TikTok" class="hover:text-blue-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
+          <img src="social-media.png" alt="ocial-media Logo" class="w-8 h-8 hover:opacity-80">
+        </svg>
+      </a>
+      <a href="https://wa.me/6281388728037" target="_blank" aria-label="WhatsApp" class="hover:text-green-500">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
+          <img src="whatsapp.png" alt="whatsapp Logo" class="w-8 h-8 hover:opacity-80">
+        </svg>
+      </a>
     </div>
   </div>
 </body>
