@@ -107,6 +107,12 @@
       const url = `https://wa.me/6281388728037?text=${encodeURIComponent(pesan)}`;
       window.open(url, '_blank');
     }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('translate-x-0');
+      sidebar.classList.toggle('-translate-x-full');
+    }
   </script>
 </head>
 <body class="bg-gray-100 font-sans">
@@ -122,39 +128,33 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <div class="bg-white rounded-lg shadow-md p-4">
           <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti</h3>
-          <p class="text-sm text-gray-600">Spaghetti pasta tipis dan panjang, sempurna dengan saus tomat atau daging.</p>
-          <button onclick="addToCart('Spaghetti', 50000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+          <h3 class="text-lg font-bold">Spaghetti Aglio e Olio</h3>
+          <p class="text-sm text-gray-600">Spaghetti dengan saus bawang putih dan minyak zaitun, pedas dan gurih.</p>
+          <button onclick="addToCart('Spaghetti Aglio e Olio', 45000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
         </div>
         <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-baked-macaroni-and-cheese-png-image_7330621.png" onclick="showImage('pngtree-baked-macaroni-and-cheese-png-image_7330621.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Macaroni</h3>
-          <p class="text-sm text-gray-600">Macaroni pasta berbentuk seperti tabung, cocok untuk dipanggang dengan keju.</p>
-          <button onclick="addToCart('Macaroni', 40000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Spaghetti Bolognese</h3>
+          <p class="text-sm text-gray-600">Spaghetti dengan saus daging sapi bolognese yang kaya rasa.</p>
+          <button onclick="addToCart('Spaghetti Bolognese', 55000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
         </div>
         <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-delicious-creamy-fettuccine-pasta-with-crispy-bacon-parmesan-and-fresh-herbs-png-image_15818180.png" onclick="showImage('pngtree-delicious-creamy-fettuccine-pasta-with-crispy-bacon-parmesan-and-fresh-herbs-png-image_15818180.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Fettuccine</h3>
-          <p class="text-sm text-gray-600">Fettuccine pasta lebar dan datar, cocok dengan saus krim yang kaya rasa.</p>
-          <button onclick="addToCart('Fettuccine', 55000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Spaghetti Carbonara</h3>
+          <p class="text-sm text-gray-600">Spaghetti dengan saus krim, bacon, dan keju parmesan.</p>
+          <button onclick="addToCart('Spaghetti Carbonara', 60000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
         </div>
         <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-top-view-italian-penne-pasta-with-tomato-sauce-on-white-plate-png-image_13793016.png" onclick="showImage('pngtree-top-view-italian-penne-pasta-with-tomato-sauce-on-white-plate-png-image_13793016.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Penne</h3>
-          <p class="text-sm text-gray-600">Penne pasta berbentuk tabung pendek, sangat cocok untuk saus tebal.</p>
-          <button onclick="addToCart('Penne', 45000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Spaghetti Pesto</h3>
+          <p class="text-sm text-gray-600">Spaghetti dengan saus pesto basil, kacang pinus, dan keju parmesan.</p>
+          <button onclick="addToCart('Spaghetti Pesto', 52000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
         </div>
         <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="Fusilli pasta berbentuk spiral, ideal untuk menyerap saus kental.png" onclick="showImage('Fusilli pasta berbentuk spiral, ideal untuk menyerap saus kental.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Fusilli</h3>
-          <p class="text-sm text-gray-600">Fusilli pasta berbentuk spiral, ideal untuk menyerap saus kental.</p>
-          <button onclick="addToCart('Fusilli', 47000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="Lasagna pasta lapis dengan daging, keju, dan saus yang kaya.png" onclick="showImage('Lasagna pasta lapis dengan daging, keju, dan saus yang kaya.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Lasagna</h3>
-          <p class="text-sm text-gray-600">Lasagna pasta lapis dengan daging, keju, dan saus yang kaya.</p>
-          <button onclick="addToCart('Lasagna', 60000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
+          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
+          <h3 class="text-lg font-bold">Spaghetti Marinara</h3>
+          <p class="text-sm text-gray-600">Spaghetti dengan saus marinara yang terbuat dari tomat segar dan rempah.</p>
+          <button onclick="addToCart('Spaghetti Marinara', 47000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
         </div>
       </div>
     </div>
@@ -175,17 +175,38 @@
     </div>
   </div>
 
-  <!-- Edit Quantity Popup -->
-  <div id="editPopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center hidden">
-    <div class="bg-white p-6 rounded-lg">
-      <h3 class="text-xl font-semibold mb-4">Edit Jumlah Item</h3>
-      <input type="number" id="editQtyInput" class="w-full p-2 border rounded mb-4" min="1">
-      <div class="flex justify-between">
-        <button onclick="saveEditQuantity()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Simpan</button>
-        <button onclick="cancelEdit()" class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded">Batal</button>
-      </div>
+  <!-- Sidebar -->
+  <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-gray-900 text-white p-6 transform transition-transform -translate-x-full z-50">
+    <div class="flex justify-between items-center">
+      <h2 class="text-xl font-bold mb-4">Syarat & Ketentuan Pemesanan</h2>
+      <button onclick="toggleSidebar()" class="text-white text-2xl font-bold">×</button>
+    </div>
+    <p class="text-sm mb-4">Pemesanan pasta ini hanya berlaku untuk wilayah tertentu. Semua pesanan yang telah dibayar tidak dapat dibatalkan. Waktu pengiriman dapat bervariasi tergantung pada lokasi Anda.</p>
+    <p class="text-sm mb-4">Harga yang tertera belum termasuk ongkos kirim. Pembayaran dilakukan melalui transfer bank atau melalui WhatsApp.</p>
+    <p class="text-sm mb-4">Pastikan untuk memeriksa jumlah pesanan Anda sebelum mengonfirmasi pemesanan.</p>
+
+    <h3 class="text-lg font-semibold mb-2">Menu Lainnya</h3>
+    <ul class="text-sm text-gray-300">
+      <li class="mb-2">Menu 1</li>
+      <li class="mb-2">Menu 2</li>
+      <li class="mb-2">Menu 3</li>
+      <li class="mb-2">Menu 4</li>
+    </ul>
+
+    <!-- Toolbar Section -->
+    <div class="mt-6 space-y-4">
+      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 1</button>
+      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 2</button>
+      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 3</button>
     </div>
   </div>
+
+  <!-- Button to open sidebar (Hamburger Icon) -->
+  <button onclick="toggleSidebar()" class="fixed top-6 left-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg">
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
 
   <div class="mt-10 text-center">
     <h3 class="font-semibold">Ikuti saya di media sosial:</h3>
@@ -209,7 +230,6 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
           <img src="whatsapp.png" alt="whatsapp Logo" class="w-8 h-8 hover:opacity-80">
         </svg>
-      </a>
     </div>
   </div>
 </body>
