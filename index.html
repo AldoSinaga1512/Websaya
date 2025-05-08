@@ -59,7 +59,7 @@
 
   <!-- Produk Grid -->
   <main class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-    <!-- Produk: Spaghetti Aglio e Olio -->
+    <!-- Produk -->
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
       <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Aglio e Olio" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Aglio e Olio</h3>
@@ -68,7 +68,6 @@
       <button onclick="addToCart('Spaghetti Aglio e Olio', 45000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
     </div>
 
-    <!-- Produk: Spaghetti Bolognese -->
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
       <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Bolognese" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Bolognese</h3>
@@ -77,7 +76,6 @@
       <button onclick="addToCart('Spaghetti Bolognese', 55000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
     </div>
 
-    <!-- Produk: Spaghetti Carbonara -->
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
       <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Carbonara" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Carbonara</h3>
@@ -86,7 +84,6 @@
       <button onclick="addToCart('Spaghetti Carbonara', 60000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
     </div>
 
-    <!-- Produk: Spaghetti Pesto -->
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
       <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Pesto" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Pesto</h3>
@@ -99,16 +96,13 @@
   <!-- Footer -->
   <footer class="bg-gray-800 text-white p-4 mt-4">
     <div class="flex justify-center space-x-6">
-      <!-- Instagram -->
-      <a href="https://www.instagram.com/aldosinaga15/" target="_blank" class="hover:text-green-600">
+      <a href="https://www.instagram.com/aldosinaga15/" target="_blank">
         <img src="instagram.png" alt="Instagram" class="w-8 h-8">
       </a>
-      <!-- TikTok -->
-      <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank" class="hover:text-green-600">
+      <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank">
         <img src="social-media.png" alt="TikTok" class="w-8 h-8">
       </a>
-      <!-- WhatsApp -->
-      <a href="https://wa.me/081388728037" target="_blank" class="hover:text-green-600">
+      <a href="https://wa.me/081388728037" target="_blank">
         <img src="whatsapp.png" alt="WhatsApp" class="w-8 h-8">
       </a>
     </div>
@@ -133,7 +127,6 @@
       const itemsContainer = document.getElementById('cart-items');
       const totalEl = document.getElementById('cart-total');
       const countEl = document.getElementById('cart-count');
-      const checkoutEl = document.getElementById('checkout');
 
       let total = 0;
       itemsContainer.innerHTML = '';
@@ -154,7 +147,6 @@
 
       totalEl.textContent = total.toLocaleString();
       countEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
-      checkoutEl.href = `https://wa.me/6282130242513?text=Halo,%20saya%20pesan:%0A${cart.map(i => `${i.name} x${i.qty}`).join('%0A')}%0ATotal:%20Rp%20${total.toLocaleString()}`;
     }
 
     function toggleCart() {
@@ -172,9 +164,20 @@
     function submitCheckout(event) {
       event.preventDefault();
 
-      const name = document.getElementById('name').value;
-      const whatsapp = document.getElementById('whatsapp').value;
-      const address = document.getElementById('address').value;
+      const name = document.getElementById('name').value.trim();
+      const whatsapp = document.getElementById('whatsapp').value.trim();
+      const address = document.getElementById('address').value.trim();
+
+      if (!name || !whatsapp || !address) {
+        alert("Mohon lengkapi semua data pada formulir.");
+        return;
+      }
+
+      const onlyNumbers = /^[0-9]{10,}$/;
+      if (!onlyNumbers.test(whatsapp)) {
+        alert("Nomor WhatsApp tidak valid. Masukkan minimal 10 digit angka tanpa spasi atau simbol.");
+        return;
+      }
 
       let total = 0;
       cart.forEach(item => {
@@ -182,11 +185,11 @@
       });
 
       const message = `Halo, saya ${name}, pesanan saya adalah:%0A${cart.map(i => `${i.name} x${i.qty}`).join('%0A')}%0ATotal: Rp ${total.toLocaleString()}%0A%0AAlamat Pengiriman: ${address}%0ANomor WhatsApp: ${whatsapp}`;
-      
-      const whatsappLink = `https://wa.me/6282130242513?text=${encodeURIComponent(message)}`;
+      const whatsappLink = `https://wa.me/081388728037?text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
 
       document.getElementById('checkout-form').classList.add('hidden');
+      document.getElementById('cart').classList.add('closed');
     }
 
     function changeQuantity(index, action) {
@@ -199,10 +202,9 @@
     }
 
     function removeFromCart(index) {
-      cart.splice(index, 1); // Menghapus produk dari keranjang
+      cart.splice(index, 1);
       updateCart();
     }
   </script>
-
 </body>
 </html>
