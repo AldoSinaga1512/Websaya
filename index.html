@@ -52,7 +52,10 @@
         <label for="address" class="block mb-2">Alamat Pengiriman</label>
         <textarea id="address" class="w-full p-2 mb-4 border rounded" required></textarea>
 
-        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Kirim & Checkout</button>
+        <div class="flex justify-between space-x-2">
+          <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Kirim & Checkout</button>
+          <button type="button" onclick="closeCheckoutForm()" class="w-full bg-red-600 text-white py-2 rounded hover:bg-red-700">Batal</button>
+        </div>
       </form>
     </div>
   </div>
@@ -159,6 +162,10 @@
 
     function showCheckoutForm() {
       document.getElementById('checkout-form').classList.remove('hidden');
+    }
+
+    function closeCheckoutForm() {
+      document.getElementById('checkout-form').classList.add('hidden');
     }
 
     function submitCheckout(event) {
