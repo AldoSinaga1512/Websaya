@@ -1,236 +1,208 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profil Pribadi & Pemesanan</title>
+  <title>Menu Pasta</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .sidebar-cart {
+      transition: transform 0.3s ease-in-out;
+    }
+    .sidebar-cart.closed {
+      transform: translateX(100%);
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-green-600 text-white p-4 flex justify-between items-center">
+    <h1 class="text-xl font-bold">Menu Pasta</h1>
+    <button onclick="toggleCart()" class="relative">
+      🛒
+      <span class="absolute -top-2 -right-2 bg-red-600 text-white text-xs px-1 rounded-full" id="cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- Sidebar Cart -->
+  <aside id="cart" class="sidebar-cart closed fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-50 p-4 overflow-y-auto">
+    <div class="flex justify-between items-center mb-4">
+      <h2 class="text-lg font-bold">Keranjang Belanja</h2>
+      <button onclick="toggleCart()" class="text-red-500 text-xl font-bold">×</button>
+    </div>
+    <ul id="cart-items" class="space-y-2"></ul>
+    <div class="mt-4 border-t pt-4">
+      <p class="font-bold">Total: Rp <span id="cart-total">0</span></p>
+      <button onclick="showCheckoutForm()" class="block mt-2 bg-green-600 text-white text-center py-2 rounded hover:bg-green-700">Checkout via WhatsApp</button>
+    </div>
+  </aside>
+
+  <!-- Checkout Form -->
+  <div id="checkout-form" class="hidden fixed top-0 left-0 w-full h-full bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80">
+      <h2 class="text-xl font-bold mb-4">Isi Form Checkout</h2>
+      <form id="form-checkout" onsubmit="submitCheckout(event)">
+        <label for="name" class="block mb-2">Nama Lengkap</label>
+        <input type="text" id="name" class="w-full p-2 mb-4 border rounded" required />
+
+        <label for="whatsapp" class="block mb-2">Nomor WhatsApp</label>
+        <input type="text" id="whatsapp" class="w-full p-2 mb-4 border rounded" required />
+
+        <label for="address" class="block mb-2">Alamat Pengiriman</label>
+        <textarea id="address" class="w-full p-2 mb-4 border rounded" required></textarea>
+
+        <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Kirim & Checkout</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Produk Grid -->
+  <main class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <!-- Produk: Spaghetti Aglio e Olio -->
+    <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Aglio e Olio" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <h3 class="text-lg font-semibold">Spaghetti Aglio e Olio</h3>
+      <p class="text-sm text-gray-600">Spaghetti dengan saus bawang putih dan minyak zaitun.</p>
+      <p class="text-green-600 font-bold mt-1">Rp 45.000</p>
+      <button onclick="addToCart('Spaghetti Aglio e Olio', 45000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
+    </div>
+
+    <!-- Produk: Spaghetti Bolognese -->
+    <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Bolognese" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <h3 class="text-lg font-semibold">Spaghetti Bolognese</h3>
+      <p class="text-sm text-gray-600">Spaghetti dengan saus daging sapi bolognese.</p>
+      <p class="text-green-600 font-bold mt-1">Rp 55.000</p>
+      <button onclick="addToCart('Spaghetti Bolognese', 55000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
+    </div>
+
+    <!-- Produk: Spaghetti Carbonara -->
+    <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Carbonara" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <h3 class="text-lg font-semibold">Spaghetti Carbonara</h3>
+      <p class="text-sm text-gray-600">Spaghetti dengan saus krim dan keju parmesan.</p>
+      <p class="text-green-600 font-bold mt-1">Rp 60.000</p>
+      <button onclick="addToCart('Spaghetti Carbonara', 60000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
+    </div>
+
+    <!-- Produk: Spaghetti Pesto -->
+    <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Pesto" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <h3 class="text-lg font-semibold">Spaghetti Pesto</h3>
+      <p class="text-sm text-gray-600">Spaghetti dengan saus pesto basil dan keju parmesan.</p>
+      <p class="text-green-600 font-bold mt-1">Rp 52.000</p>
+      <button onclick="addToCart('Spaghetti Pesto', 52000)" class="mt-2 bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">+ Keranjang</button>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="bg-gray-800 text-white p-4 mt-4">
+    <div class="flex justify-center space-x-6">
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/aldosinaga15/" target="_blank" class="hover:text-green-600">
+        <img src="instagram.png" alt="Instagram" class="w-8 h-8">
+      </a>
+      <!-- TikTok -->
+      <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank" class="hover:text-green-600">
+        <img src="social-media.png" alt="TikTok" class="w-8 h-8">
+      </a>
+      <!-- WhatsApp -->
+      <a href="https://wa.me/081388728037" target="_blank" class="hover:text-green-600">
+        <img src="whatsapp.png" alt="WhatsApp" class="w-8 h-8">
+      </a>
+    </div>
+    <p class="text-center mt-4 text-sm">© 2025 Menu Pasta | All rights reserved.</p>
+  </footer>
+
+  <!-- Script -->
   <script>
     let cart = [];
-    let editingIndex = null;
 
-    function showImage(src) {
-      const overlay = document.createElement('div');
-      overlay.className = "fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50";
-      overlay.innerHTML = ` 
-        <div>
-          <img src="${src}" class="max-w-full max-h-full rounded-lg shadow-lg" />
-          <button onclick="this.parentElement.parentElement.remove()" class="block mt-4 text-white mx-auto">Tutup</button>
-        </div>
-      `;
-      document.body.appendChild(overlay);
+    function addToCart(name, price) {
+      const existing = cart.find(item => item.name === name);
+      if (existing) {
+        existing.qty++;
+      } else {
+        cart.push({ name, price, qty: 1 });
+      }
+      updateCart();
     }
 
-    function addToCart(productName, price) {
-      const existingItem = cart.find(item => item.name === productName);
-      if (existingItem) {
-        existingItem.quantity++;
-      } else {
-        cart.push({ name: productName, price, quantity: 1 });
+    function updateCart() {
+      const itemsContainer = document.getElementById('cart-items');
+      const totalEl = document.getElementById('cart-total');
+      const countEl = document.getElementById('cart-count');
+      const checkoutEl = document.getElementById('checkout');
+
+      let total = 0;
+      itemsContainer.innerHTML = '';
+      cart.forEach((item, index) => {
+        total += item.qty * item.price;
+        const li = document.createElement('li');
+        li.classList.add('flex', 'justify-between', 'items-center');
+        li.innerHTML = `
+          <span>${item.name} x${item.qty} - Rp ${item.qty * item.price}</span>
+          <div class="flex items-center space-x-2">
+            <button onclick="changeQuantity(${index}, 'decrease')" class="text-xs text-gray-600">-</button>
+            <button onclick="changeQuantity(${index}, 'increase')" class="text-xs text-gray-600">+</button>
+            <button onclick="removeFromCart(${index})" class="text-xs text-red-600">Hapus</button>
+          </div>
+        `;
+        itemsContainer.appendChild(li);
+      });
+
+      totalEl.textContent = total.toLocaleString();
+      countEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
+      checkoutEl.href = `https://wa.me/6282130242513?text=Halo,%20saya%20pesan:%0A${cart.map(i => `${i.name} x${i.qty}`).join('%0A')}%0ATotal:%20Rp%20${total.toLocaleString()}`;
+    }
+
+    function toggleCart() {
+      document.getElementById('cart').classList.toggle('closed');
+    }
+
+    function showImage(src) {
+      window.open(src, '_blank');
+    }
+
+    function showCheckoutForm() {
+      document.getElementById('checkout-form').classList.remove('hidden');
+    }
+
+    function submitCheckout(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('name').value;
+      const whatsapp = document.getElementById('whatsapp').value;
+      const address = document.getElementById('address').value;
+
+      let total = 0;
+      cart.forEach(item => {
+        total += item.qty * item.price;
+      });
+
+      const message = `Halo, saya ${name}, pesanan saya adalah:%0A${cart.map(i => `${i.name} x${i.qty}`).join('%0A')}%0ATotal: Rp ${total.toLocaleString()}%0A%0AAlamat Pengiriman: ${address}%0ANomor WhatsApp: ${whatsapp}`;
+      
+      const whatsappLink = `https://wa.me/6282130242513?text=${encodeURIComponent(message)}`;
+      window.open(whatsappLink, '_blank');
+
+      document.getElementById('checkout-form').classList.add('hidden');
+    }
+
+    function changeQuantity(index, action) {
+      if (action === 'increase') {
+        cart[index].qty++;
+      } else if (action === 'decrease' && cart[index].qty > 1) {
+        cart[index].qty--;
       }
-      renderCart();
+      updateCart();
     }
 
     function removeFromCart(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
-
-    function openEditPopup(index) {
-      editingIndex = index;
-      document.getElementById('editQtyInput').value = cart[index].quantity;
-      document.getElementById('editPopup').classList.remove('hidden');
-    }
-
-    function saveEditQuantity() {
-      const qty = parseInt(document.getElementById('editQtyInput').value);
-      if (!isNaN(qty) && qty > 0) {
-        cart[editingIndex].quantity = qty;
-        document.getElementById('editPopup').classList.add('hidden');
-        renderCart();
-      } else {
-        alert("Jumlah tidak valid. Masukkan angka lebih dari 0.");
-      }
-    }
-
-    function cancelEdit() {
-      document.getElementById('editPopup').classList.add('hidden');
-    }
-
-    function renderCart() {
-      const cartContainer = document.getElementById('cartItems');
-      const totalContainer = document.getElementById('cartTotal');
-      cartContainer.innerHTML = '';
-      let total = 0;
-
-      cart.forEach((item, index) => {
-        const subtotal = item.price * item.quantity;
-        total += subtotal;
-        const div = document.createElement('div');
-        div.className = "flex justify-between items-center text-sm text-gray-700";
-        div.innerHTML = `
-          <div>
-            <span class="font-medium">${item.name}</span> x ${item.quantity} <br>
-            <span class="text-xs text-gray-500">Rp ${item.price.toLocaleString()} /pcs</span>
-          </div>
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-semibold">Rp ${subtotal.toLocaleString()}</span>
-            <button onclick="openEditPopup(${index})" class="text-blue-600 hover:text-blue-800 text-xs">Edit</button>
-            <button onclick="removeFromCart(${index})" class="text-red-600 hover:text-red-800 text-xs">Hapus</button>
-          </div>
-        `;
-        cartContainer.appendChild(div);
-      });
-
-      totalContainer.textContent = `Total: Rp ${total.toLocaleString()}`;
-      document.getElementById('orderForm').style.display = cart.length ? 'block' : 'none';
-    }
-
-    function checkout() {
-      const name = document.getElementById('name').value;
-      const whatsapp = document.getElementById('whatsapp').value;
-      const email = document.getElementById('email').value;
-      const address = document.getElementById('address').value;
-
-      if (!name || !whatsapp || !email || !address) {
-        alert("Harap isi semua form sebelum melanjutkan!");
-        return;
-      }
-
-      let pesan = `Halo, saya ingin memesan:\nNama: ${name}\nWhatsApp: ${whatsapp}\nEmail: ${email}\nAlamat: ${address}\n\n`;
-      cart.forEach((item, i) => {
-        pesan += `${i + 1}. ${item.name} x ${item.quantity} - Rp ${(item.price * item.quantity).toLocaleString()}\n`;
-      });
-      const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-      pesan += `\nTotal: Rp ${total.toLocaleString()}`;
-
-      const url = `https://wa.me/082130242513?text=${encodeURIComponent(pesan)}`;
-      window.open(url, '_blank');
-    }
-
-    function toggleSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('translate-x-0');
-      sidebar.classList.toggle('-translate-x-full');
+      cart.splice(index, 1); // Menghapus produk dari keranjang
+      updateCart();
     }
   </script>
-</head>
-<body class="bg-gray-100 font-sans">
-  <div class="container mx-auto mt-10 p-6 bg-white rounded-2xl shadow-lg">
-    <div class="text-center">
-      <img src="retouch_1703546733344.JPEG.jpg" alt="Foto Profil" class="mx-auto rounded-full mb-4 w-32 h-32 object-cover" />
-      <h1 class="text-3xl font-bold">Pasta Ku</h1>
-      <p class="text-gray-600 mt-2">banyak macam pasta</p>
-    </div>
 
-    <div class="mt-10">
-      <h2 class="text-2xl font-semibold mb-4">Menu Pasta</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti Aglio e Olio</h3>
-          <p class="text-sm text-gray-600">Spaghetti dengan saus bawang putih dan minyak zaitun, pedas dan gurih.</p>
-          <button onclick="addToCart('Spaghetti Aglio e Olio', 45000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti Bolognese</h3>
-          <p class="text-sm text-gray-600">Spaghetti dengan saus daging sapi bolognese yang kaya rasa.</p>
-          <button onclick="addToCart('Spaghetti Bolognese', 55000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti Carbonara</h3>
-          <p class="text-sm text-gray-600">Spaghetti dengan saus krim, bacon, dan keju parmesan.</p>
-          <button onclick="addToCart('Spaghetti Carbonara', 60000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti Pesto</h3>
-          <p class="text-sm text-gray-600">Spaghetti dengan saus pesto basil, kacang pinus, dan keju parmesan.</p>
-          <button onclick="addToCart('Spaghetti Pesto', 52000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-        <div class="bg-white rounded-lg shadow-md p-4">
-          <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" onclick="showImage('pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png')" class="cursor-pointer w-full h-48 object-cover rounded mb-2">
-          <h3 class="text-lg font-bold">Spaghetti Marinara</h3>
-          <p class="text-sm text-gray-600">Spaghetti dengan saus marinara yang terbuat dari tomat segar dan rempah.</p>
-          <button onclick="addToCart('Spaghetti Marinara', 47000)" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 mt-2 rounded">+ Keranjang</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-10">
-      <h2 class="text-xl font-semibold mb-2">Keranjang Belanja</h2>
-      <div id="cartItems" class="space-y-2"></div>
-      <div id="cartTotal" class="text-right text-lg font-bold mt-4"></div>
-    </div>
-
-    <div id="orderForm" class="mt-10" style="display: none;">
-      <h2 class="text-xl font-semibold mb-4">Form Pemesanan</h2>
-      <input type="text" id="name" placeholder="Nama Lengkap" class="w-full p-2 border rounded mb-4">
-      <input type="text" id="whatsapp" placeholder="Nomor WhatsApp" class="w-full p-2 border rounded mb-4">
-      <input type="email" id="email" placeholder="Email" class="w-full p-2 border rounded mb-4">
-      <textarea id="address" placeholder="Alamat Pengiriman" class="w-full p-2 border rounded mb-4"></textarea>
-      <button onclick="checkout()" class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">Checkout via WhatsApp</button>
-    </div>
-  </div>
-
-  <!-- Sidebar -->
-  <div id="sidebar" class="fixed top-0 left-0 w-64 h-full bg-gray-900 text-white p-6 transform transition-transform -translate-x-full z-50">
-    <div class="flex justify-between items-center">
-      <h2 class="text-xl font-bold mb-4">Syarat & Ketentuan Pemesanan</h2>
-      <button onclick="toggleSidebar()" class="text-white text-2xl font-bold">×</button>
-    </div>
-    <p class="text-sm mb-4">Pemesanan pasta ini hanya berlaku untuk wilayah tertentu. Semua pesanan yang telah dibayar tidak dapat dibatalkan. Waktu pengiriman dapat bervariasi tergantung pada lokasi Anda.</p>
-    <p class="text-sm mb-4">Harga yang tertera belum termasuk ongkos kirim. Pembayaran dilakukan melalui transfer bank atau melalui WhatsApp.</p>
-    <p class="text-sm mb-4">Pastikan untuk memeriksa jumlah pesanan Anda sebelum mengonfirmasi pemesanan.</p>
-
-    <h3 class="text-lg font-semibold mb-2">Menu Lainnya</h3>
-    <ul class="text-sm text-gray-300">
-      <li class="mb-2">Menu 1</li>
-      <li class="mb-2">Menu 2</li>
-      <li class="mb-2">Menu 3</li>
-      <li class="mb-2">Menu 4</li>
-    </ul>
-
-    <!-- Toolbar Section -->
-    <div class="mt-6 space-y-4">
-      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 1</button>
-      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 2</button>
-      <button class="w-full bg-gray-700 hover:bg-gray-600 py-2 rounded">Toolbar 3</button>
-    </div>
-  </div>
-
-  <!-- Button to open sidebar (Hamburger Icon) -->
-  <button onclick="toggleSidebar()" class="fixed top-6 left-6 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full shadow-lg">
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-    </svg>
-  </button>
-
-  <div class="mt-10 text-center">
-    <h3 class="font-semibold">Ikuti saya di media sosial:</h3>
-    <div class="flex justify-center gap-6 mt-4">
-      <a href="https://www.instagram.com/aldosinaga15/" target="_blank" aria-label="Instagram" class="hover:text-blue-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
-          <img src="instagram.png" alt="Instagram Logo" class="w-8 h-8 hover:opacity-80">
-        </svg>
-      </a>
-      <a href="https://x.com/AldoSinaga_15" target="_blank" aria-label="X" class="hover:text-blue-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
-          <img src="twitter.png" alt="twitter Logo" class="w-8 h-8 hover:opacity-80">
-        </svg>
-      </a>
-      <a href="https://www.tiktok.com/@cacing.besar.alaskaaaa" target="_blank" aria-label="TikTok" class="hover:text-blue-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
-          <img src="social-media.png" alt="social-media Logo" class="w-8 h-8 hover:opacity-80">
-        </svg>
-      </a>
-      <a href="https://wa.me/082130242513" target="_blank" aria-label="WhatsApp" class="hover:text-green-500">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 inline" fill="currentColor" viewBox="0 0 24 24">
-          <img src="whatsapp.png" alt="whatsapp Logo" class="w-8 h-8 hover:opacity-80">
-        </svg>
-    </div>
-  </div>
 </body>
 </html>
