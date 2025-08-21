@@ -25,6 +25,9 @@
     </button>
   </header>
 
+  <!-- Overlay -->
+  <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40" onclick="toggleCart()"></div>
+
   <!-- Sidebar Cart -->
   <aside id="cart" class="sidebar-cart closed fixed top-0 right-0 w-80 h-full bg-white shadow-lg z-50 p-4 overflow-y-auto">
     <div class="flex justify-between items-center mb-4">
@@ -33,7 +36,7 @@
     </div>
     <ul id="cart-items" class="space-y-2"></ul>
     <div class="mt-4 border-t pt-4">
-      <p class="font-bold">Total: Rp <span id="cart-total">0</span></p>
+      <p class="font-bold">Total: <span id="cart-total">Rp 0</span></p>
       <button onclick="showCheckoutForm()" class="block mt-2 bg-green-600 text-white text-center py-2 rounded hover:bg-green-700">Checkout via WhatsApp</button>
     </div>
   </aside>
@@ -44,13 +47,13 @@
       <h2 class="text-xl font-bold mb-4">Isi Form Checkout</h2>
       <form id="form-checkout" onsubmit="submitCheckout(event)">
         <label for="name" class="block mb-2">Nama Lengkap</label>
-        <input type="text" id="name" class="w-full p-2 mb-4 border rounded" required />
+        <input type="text" id="name" placeholder="Contoh: Aldo Sinaga" class="w-full p-2 mb-4 border rounded" required />
 
         <label for="whatsapp" class="block mb-2">Nomor WhatsApp</label>
-        <input type="text" id="whatsapp" class="w-full p-2 mb-4 border rounded" required />
+        <input type="text" id="whatsapp" placeholder="Contoh: 08123456789" class="w-full p-2 mb-4 border rounded" required />
 
         <label for="address" class="block mb-2">Alamat Pengiriman</label>
-        <textarea id="address" class="w-full p-2 mb-4 border rounded" required></textarea>
+        <textarea id="address" placeholder="Tulis alamat lengkap..." class="w-full p-2 mb-4 border rounded" required></textarea>
 
         <div class="flex justify-between space-x-2">
           <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700">Kirim & Checkout</button>
@@ -64,7 +67,7 @@
   <main class="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
     <!-- Produk -->
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
-      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Aglio e Olio" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Aglio e Olio" class="w-full h-40 object-cover rounded mb-2 cursor-pointer transform hover:scale-105 transition" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Aglio e Olio</h3>
       <p class="text-sm text-gray-600">Spaghetti dengan saus bawang putih dan minyak zaitun.</p>
       <p class="text-green-600 font-bold mt-1">Rp 45.000</p>
@@ -72,7 +75,7 @@
     </div>
 
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
-      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Bolognese" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Bolognese" class="w-full h-40 object-cover rounded mb-2 cursor-pointer transform hover:scale-105 transition" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Bolognese</h3>
       <p class="text-sm text-gray-600">Spaghetti dengan saus daging sapi bolognese.</p>
       <p class="text-green-600 font-bold mt-1">Rp 55.000</p>
@@ -80,7 +83,7 @@
     </div>
 
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
-      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Carbonara" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Carbonara" class="w-full h-40 object-cover rounded mb-2 cursor-pointer transform hover:scale-105 transition" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Carbonara</h3>
       <p class="text-sm text-gray-600">Spaghetti dengan saus krim dan keju parmesan.</p>
       <p class="text-green-600 font-bold mt-1">Rp 60.000</p>
@@ -88,7 +91,7 @@
     </div>
 
     <div class="bg-white rounded-lg shadow hover:shadow-md transition p-4">
-      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Pesto" class="w-full h-40 object-cover rounded mb-2 cursor-pointer" onclick="showImage(this.src)">
+      <img src="pngtree-spaghetti-delicious-delicious-tomato-flavor-photo-png-image_6683220.png" alt="Spaghetti Pesto" class="w-full h-40 object-cover rounded mb-2 cursor-pointer transform hover:scale-105 transition" onclick="showImage(this.src)">
       <h3 class="text-lg font-semibold">Spaghetti Pesto</h3>
       <p class="text-sm text-gray-600">Spaghetti dengan saus pesto basil dan keju parmesan.</p>
       <p class="text-green-600 font-bold mt-1">Rp 52.000</p>
@@ -116,6 +119,10 @@
   <script>
     let cart = [];
 
+    function formatRupiah(value) {
+      return value.toLocaleString("id-ID", { style: "currency", currency: "IDR" });
+    }
+
     function addToCart(name, price) {
       const existing = cart.find(item => item.name === name);
       if (existing) {
@@ -138,7 +145,7 @@
         const li = document.createElement('li');
         li.classList.add('flex', 'justify-between', 'items-center');
         li.innerHTML = `
-          <span>${item.name} x${item.qty} - Rp ${item.qty * item.price}</span>
+          <span>${item.name} x${item.qty} - ${formatRupiah(item.qty * item.price)}</span>
           <div class="flex items-center space-x-2">
             <button onclick="changeQuantity(${index}, 'decrease')" class="text-xs text-gray-600">-</button>
             <button onclick="changeQuantity(${index}, 'increase')" class="text-xs text-gray-600">+</button>
@@ -148,12 +155,13 @@
         itemsContainer.appendChild(li);
       });
 
-      totalEl.textContent = total.toLocaleString();
+      totalEl.textContent = formatRupiah(total);
       countEl.textContent = cart.reduce((sum, item) => sum + item.qty, 0);
     }
 
     function toggleCart() {
       document.getElementById('cart').classList.toggle('closed');
+      document.getElementById('overlay').classList.toggle('hidden');
     }
 
     function showImage(src) {
@@ -180,9 +188,9 @@
         return;
       }
 
-      const onlyNumbers = /^[0-9]{10,}$/;
+      const onlyNumbers = /^[0-9]{9,15}$/;
       if (!onlyNumbers.test(whatsapp)) {
-        alert("Nomor WhatsApp tidak valid. Masukkan minimal 10 digit angka tanpa spasi atau simbol.");
+        alert("Nomor WhatsApp tidak valid. Masukkan hanya angka, 9-15 digit.");
         return;
       }
 
@@ -196,14 +204,15 @@
         `*📱 No. WhatsApp:* *${whatsapp}*\n` +
         `*🏠 Alamat:* *${address}*\n\n` +
         `🛒 *Detail Pesanan*\n` +
-        cart.map(i => `- ${i.name} x${i.qty} = Rp ${(i.qty * i.price).toLocaleString()}`).join('\n') +
-        `\n\n💰 *Total:* Rp ${total.toLocaleString()}`;
+        cart.map(i => `- ${i.name} x${i.qty} = ${formatRupiah(i.qty * i.price)}`).join('\n') +
+        `\n\n💰 *Total:* ${formatRupiah(total)}`;
         
       const whatsappLink = `https://api.whatsapp.com/send?phone=6281388728037&text=${encodeURIComponent(message)}`;
       window.open(whatsappLink, '_blank');
 
       document.getElementById('checkout-form').classList.add('hidden');
       document.getElementById('cart').classList.add('closed');
+      document.getElementById('overlay').classList.add('hidden');
     }
 
     function changeQuantity(index, action) {
